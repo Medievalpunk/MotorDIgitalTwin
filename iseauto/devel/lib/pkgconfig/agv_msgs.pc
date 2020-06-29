@@ -1,8 +1,0 @@
-prefix=/home/user/iseauto/devel
-
-Name: agv_msgs
-Description: Description of agv_msgs
-Version: 0.0.0
-Cflags: -I/home/user/iseauto/devel/include
-Libs: -L/home/user/iseauto/devel/lib 
-Requires: message_runtime std_msgs geometry_msgs sensor_msgs

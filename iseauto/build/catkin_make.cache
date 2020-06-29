@@ -1,0 +1,2 @@
+ecu
+-DCATKIN_DEVEL_PREFIX=/home/user/iseauto/devel -DCMAKE_INSTALL_PREFIX=/home/user/iseauto/install -G Unix Makefiles

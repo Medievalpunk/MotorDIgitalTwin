@@ -1,0 +1,8 @@
+prefix=/home/user/iseauto/devel
+
+Name: themis_msgs
+Description: Description of themis_msgs
+Version: 1.0.2
+Cflags: -I/home/user/iseauto/devel/include
+Libs: -L/home/user/iseauto/devel/lib 
+Requires: message_runtime std_msgs

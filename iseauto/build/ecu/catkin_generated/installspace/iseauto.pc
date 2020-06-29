@@ -1,0 +1,8 @@
+prefix=/home/user/iseauto/install
+
+Name: iseauto
+Description: Description of iseauto
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/user/iseauto/install/lib 
+Requires: 

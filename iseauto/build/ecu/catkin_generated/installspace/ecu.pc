@@ -1,0 +1,8 @@
+prefix=/home/user/iseauto/install
+
+Name: ecu
+Description: Description of ecu
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/user/iseauto/install/lib 
+Requires: 

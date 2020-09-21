@@ -1,0 +1,8 @@
+<launch>
+<!-- This launch file is to launch Rosbridge and iseauto modules-->
+    <include file="$(find rosbridge_server)/launch/rosbridge_udp.launch" />
+<!--Launch iseauto nodes-->
+    <node name="rotation" pkg="iseauto" type="Rotation" />
+    <node name="control" pkg="iseauto" type="Control" />
+
+</launch>

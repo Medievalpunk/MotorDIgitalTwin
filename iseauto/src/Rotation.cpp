@@ -16,12 +16,12 @@ public:
 void angVListener::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
 {
     rpm = msg->data*60/(2* M_PI);
-    printf("RECEIVED\n");
 }
 
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "rotation");
+    ROS_INFO("Started iseauto_rotation node");
     ros::NodeHandle nh("~");
     ros::Rate rate(60);
 

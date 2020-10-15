@@ -8,13 +8,12 @@
  */
 
 #include <ros/ros.h>
+#include <ros/console.h>
 #include <std_msgs/Float32.h>
 
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include <thread>
-
 
 using namespace std;
 int ticksSinceTarget;
@@ -23,7 +22,9 @@ int closestItemIDX(vector<float> array, float item)
 {
     float delta=-1;
     int idx=-1;
+
     //cout<<array.size()<<endl;
+
     for (int i = 0;i<array.size();i++)
     {
         float it=array.at(i);
@@ -38,10 +39,8 @@ int closestItemIDX(vector<float> array, float item)
             delta = abs(it - item);
             idx=i;
         }
+
         //cout<<i<<endl;
-
-
-
     }
     return idx;
 }
@@ -58,29 +57,19 @@ int timeoutTicks;
 
 void getTorque(std_msgs::Float32ConstPtr msg)
 {
-
     ticksSinceTarget = 0;
     current_state.torque=msg->data;
     //cout<<"Torque: "<<current_state.torque<<endl;
-
 }
 void getRPM(std_msgs::Float32ConstPtr msg)
 {
-
     ticksSinceTarget = 0;
     current_state.rpm=msg->data;
     //cout<<"RPM: "<<current_state.rpm<<endl;
-
-
 }
-
-
-
-
 
 class EfficiencyMapProcessor{
 public:
-
     string line;
     EfficiencyMapProcessor(string filename)
     {
@@ -114,7 +103,6 @@ public:
                         }
                         else
                         {
-
                             temp_eff.push_back(stof(word));
                         }
                     }
@@ -132,7 +120,6 @@ public:
                 rpm.push_back(stof(word));
             } else if(line_c==0&&word_c%2!=0)
             {
-
             }
             else
             {
@@ -142,22 +129,16 @@ public:
                 }
                 else
                 {
-
                     temp_eff.push_back(stof(word));
                 }
                 torque.push_back(temp_tor);
                 rmsEfficiency.push_back(temp_eff);
                 word_c++;
             }
-
             line_c++;
-
-
         }
         cout<<torque.size()<<endl;
         cout<<torque.size()<<endl;
-
-
 
         rate=60;
         timeoutTicks=2;
@@ -167,15 +148,9 @@ public:
 
         // initializing publishers/subscribers
         TorqueReceiver = handler.subscribe<std_msgs::Float32>("iseauto/control/torque", 10, getTorque);
-        RPMReceiver = handler.subscribe<std_msgs::Float32>("iseauto/feedback/rpm", 10, getRPM);
-
-
-
+        RPMReceiver = handler.subscribe<std_msgs::Float32>("iseauto/feedback/actual_rpm", 10, getRPM);
         EfficiencyControl = handler.advertise<std_msgs::Float32>("iseauto/control/torque/efficiency", 10);
-
     }
-
-
 
     float getEfficiency(float c_rpm, float c_torque)
     {
@@ -190,17 +165,9 @@ public:
         int idx_torque=closestItemIDX(torque_column,c_torque);
         //cout<<idx_torque<<endl;
         return rmsEfficiency.at(idx_torque).at(idx_rpm);
-
-
-
-
-
     }
 
     void spin() {
-
-
-
 
         ros::Rate r(rate);
         ros::Rate idle(10);
@@ -210,16 +177,11 @@ public:
         // main control loop
         while (ros::ok())
         {
-
-
             spinOnce();
             ros::spinOnce();
             idle.sleep();
         }
-
         ROS_INFO("Quit");
-
-
     }
 
     void spinOnce()
@@ -229,9 +191,6 @@ public:
         std_msgs::Float32 value;
         value.data = current_state.torque*(getEfficiency(current_state.rpm,current_state.torque)/100);
         EfficiencyControl.publish(value);
-
-
-
     }
 
 private:
@@ -239,13 +198,7 @@ private:
     ros::Subscriber TorqueReceiver;
     ros::Subscriber RPMReceiver;
     ros::Publisher EfficiencyControl;
-
-
 };
-
-
-
-
 
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
@@ -259,15 +212,12 @@ int main(int argc, char **argv) {
     rpm.push_back(1650);
     rpm.push_back(1800);*/
 
-
     try {
-
         EfficiencyMapProcessor EffMapper("PMSynRM.csv");
-
         EffMapper.spin();
-
     }
-    catch (const ros::Exception) {
+    catch (const ros::Exception &e) {
+        ROS_ERROR("Error occured %s", e.what());
         return (1);
     }
 

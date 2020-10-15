@@ -14,6 +14,8 @@
 #include <fstream>
 #include <ctime>
 #include <thread>
+#include "pid.h" // include PID class
+
 #define testingrn
 
 int ticksSinceTarget;
@@ -49,95 +51,12 @@ void desiredReceive(std_msgs::Float32ConstPtr msg)
 
 }
 
-
-
 class MotorController {
 public:
-    float max_torque = 60;
-    /**PID Class*/
-    class PID
-    {
-    public:
-        float pError;
-        float iError;
-        float dError;
-        float p;
-        float i;
-        float d;
-        float max_i;
-        float old_pError;
-        float deadband[2];
-        float output;
+    //float max_torque = 60;
+    MotorController(float cp, float ci, float cd, float max_torque, float min_value) {
 
-
-
-
-        PID(float cp, float ci, float cd, float max_out, float min_value){
-            deadband[0]=max_out;
-            deadband[1]=min_value;
-            p=cp;
-            i=ci;
-            d=cd;
-        }
-        void update(float cp, float ci, float cd){
-
-            p=cp;
-            i=ci;
-            d=cd;
-
-        }
-        void loop(float *desired, float *real)
-        {
-            pError = *desired - *real;
-            iError += pError;
-            dError = (pError - old_pError);
-            checkInput(desired);
-            checkOverflow(iError,max_i);
-            output=p * pError + i * iError + d * dError;
-            checkOverflow(output,deadband[0]);
-            checkDeadband(output,deadband[1]);
-        }
-
-
-        float getOutput()
-        {
-            return output;
-        }
-        ~PID()
-        {
-
-        }
-
-    private:
-        void checkOverflowInteg(float &integ, float max_iError)
-        {
-            if (fabs(integ)>max_iError)
-                integ=sgn(integ)*max_iError;
-        }
-        void checkOverflow(float &out, float max_out)
-        {
-            if (fabs(out)>max_out)
-                out=sgn(out)*max_out;
-        }
-        float checkInput(float *des)
-        {
-            if (*des==0)iError=0;
-        }
-        void checkDeadband(float &out,float min_value)
-        {
-            if (fabs(out)<min_value)
-                out=0;
-        }
-
-    };
-
-
-
-
-
-    MotorController() {
-
-        motorPID=new PID(    0.018f,  0.012, 0.0000f,   max_torque,  0);
+        motorPID=new PID(0.018f,0.012,0.0000f,max_torque,0);
         motorPID->max_i=500;
         rate=60;
         timeoutTicks=2;
@@ -148,25 +67,9 @@ public:
         // initializing publishers/subscribers
         encoderReceiver = handler.subscribe<std_msgs::Float32>("/iseauto/feedback/actual_rpm", 10, encoderReceive);
         desiredReceiver = handler.subscribe<std_msgs::Float32>("/iseauto/control/desired_rpm", 10, desiredReceive);
-
-
-
         controlPublisher = handler.advertise<std_msgs::Float32>("/iseauto/control/torque", 10);
-
-
-
-
-
-
     }
-
-
-
     void spin() {
-
-
-
-
         ros::Rate r(rate);
         ros::Rate idle(10);
         ros::Time then = ros::Time::now();
@@ -175,18 +78,13 @@ public:
         // main control loop
         while (ros::ok())
         {
-
-
             spinOnce();
             ros::spinOnce();
             idle.sleep();
         }
 
         ROS_INFO("Quit");
-
-
     }
-
 private:
 
     PID* motorPID;
@@ -194,11 +92,6 @@ private:
     ros::Subscriber encoderReceiver;
     ros::Subscriber desiredReceiver;
     ros::Publisher controlPublisher;
-
-
-
-
-
 
     void spinOnce()
     {
@@ -208,36 +101,30 @@ private:
         std_msgs::Float32 value;
         value.data = motorPID->getOutput();
         controlPublisher.publish(value);
-
-
         ticksSinceTarget += 1;
 
         ROS_INFO("Looping");
-
-
     }
-
 };
-
-
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "iseauto");
-    ROS_INFO("Started iseauto Motor node");
-
+    float cp=0, ci=0, cd=0,maxTorque=0,minValue=0;
+    ros::init(argc, argv, "control");
+    ROS_INFO("Started iseauto_control node");
+    ros::NodeHandle nh;
+    nh.getParam("/iseauto_control/P", cp);
+    nh.getParam("/iseauto_control/I", ci);
+    nh.getParam("/iseauto_control/D", cd);
+    nh.getParam("/iseauto_control/max_torque",maxTorque);
+    nh.getParam("/iseauto_control/min_value",minValue);
 
     try {
-
-        MotorController baseController;
-
-
+        MotorController baseController(cp,ci,cd,maxTorque,minValue);
         baseController.spin();
-
     }
     catch (const ros::Exception) {
         return (1);
     }
-
     return 0;
 }
 

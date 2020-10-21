@@ -213,7 +213,7 @@ int main(int argc, char **argv) {
     rpm.push_back(1800);*/
 
     try {
-        EfficiencyMapProcessor EffMapper("PMSynRM.csv");
+        EfficiencyMapProcessor EffMapper("Utilities/PMSynRM.csv");
         EffMapper.spin();
     }
     catch (const ros::Exception &e) {

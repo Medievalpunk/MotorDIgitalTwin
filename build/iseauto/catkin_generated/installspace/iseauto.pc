@@ -3,6 +3,6 @@ prefix=/home/sejego/catkin_ws/install
 Name: iseauto
 Description: Description of iseauto
 Version: 1.0.0
-Cflags: 
+Cflags: -I${prefix}/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: message_runtime

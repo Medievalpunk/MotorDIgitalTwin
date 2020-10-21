@@ -4,12 +4,20 @@ project(iseauto)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  message_generation
 )
-
+add_message_files(
+        FILES
+        Current.msg
+        Voltage.msg
+)
+generate_messages(
+        DEPENDENCIES
+        std_msgs
+)
 catkin_package(
-
+        CATKIN_DEPENDS message_runtime
 )
-
 ###########
 ## Build ##
 ###########
@@ -39,4 +47,6 @@ target_link_libraries(Efficiency
 target_link_libraries(Rotation
   ${catkin_LIBRARIES})
 target_link_libraries(Control
+  ${catkin_LIBRARIES})
+target_link_libraries(currentVoltageFlow
   ${catkin_LIBRARIES})

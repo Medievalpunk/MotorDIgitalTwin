@@ -1,13 +1,13 @@
 //
 // Created by sejego on 10/18/20.
 // This script parses the data from Dewetron measurement csv file.
-// TO DO:
+// TODO: umap instead of vector
 // add relative path to file.
 // get onevalue of current?
 //
 
 #include <iostream>
-#include <vector>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -87,29 +87,29 @@ void parseDewetron::parseDewetronFile()
                     }
                     buffCounter++;
                 }
-                // insert values for appropriate vectors
+                // insert values for appropriate umaps
                 for (int j = 0; j < 7; j++) {
 
                     //std::cout << bufferArray[j] << "\n";
 
                     switch (j) {
                         case 1:
-                            current_1.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            current_1.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                         case 2:
-                            current_2.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            current_2.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                         case 3:
-                            current_3.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            current_3.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                         case 4:
-                            voltage_1.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            voltage_1.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                         case 5:
-                            voltage_2.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            voltage_2.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                         case 6:
-                            voltage_3.push_back(std::make_pair(bufferArray[0], bufferArray[j]));
+                            voltage_3.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                     }
                 }
@@ -117,29 +117,29 @@ void parseDewetron::parseDewetronFile()
         }
     dewetronFile.close();
 }
-std::vector<std::pair<float, float>> parseDewetron::getCurrentOneVector()
+float parseDewetron::getCurrentOne(float key)
 {
-    return current_1;
+    return current_1.at(key);
 }
-std::vector<std::pair<float, float>> parseDewetron::getCurrentTwoVector()
+float parseDewetron::getCurrentTwo(float key)
 {
-    return current_2;
+    return current_2.at(key);
 }
-std::vector<std::pair<float, float>> parseDewetron::getCurrentTwoVector()
+float parseDewetron::getCurrentThree(float key)
 {
-    return current_3;
+    return current_3.at(key);
 }
-std::vector<std::pair<float, float>> parseDewetron::getVoltageOneVector()
+float parseDewetron::getVoltageOne(float key)
 {
-    return voltage_1;
+    return voltage_1.at(key);
 }
-std::vector<std::pair<float, float>> parseDewetron::getVoltageTwoVector()
+float parseDewetron::getVoltageTwo(float key)
 {
-    return voltage_2;
+    return voltage_2.at(key);
 }
-std::vector<std::pair<float, float>> parseDewetron::getVoltageThreeVector()
+float parseDewetron::getVoltageThree(float key)
 {
-    return voltage_3;
+    return voltage_3.at(key);
 }
 float parseDewetron::getFrequency()
 {

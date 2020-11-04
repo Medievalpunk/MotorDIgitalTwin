@@ -35,8 +35,8 @@ public:
     {
         ros::NodeHandle handler;
         // initializing publishers/subscribers
-        PublishInputCurrent = handler.advertise<iseauto::Current>("iseauto/control/input_current", 10);
-        PublishInputVoltage = handler.advertise<iseauto::Voltage>("iseauto/control/input_voltage", 10);
+        PublishInputCurrent = handler.advertise<iseauto::Current>("tb/loading_motor/input_current", 10);
+        PublishInputVoltage = handler.advertise<iseauto::Voltage>("tb/loading_motor/input_voltage", 10);
         dewetron = new parseDewetron(filename, frequency); // get from params
     }
     void wrapToMsg(double time)
@@ -88,8 +88,8 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "input_current_voltage");
     ROS_INFO("Started iseauto inputCurrentVoltage node");
-    ros::param::get("/iseauto_input_current/csv_file", csv_file);
-    ros::param::get("/iseauto_input_current/frequency", frequency);
+    ros::param::get("/tb/loading_motor/input_current/csv_file", csv_file);
+    ros::param::get("/tb/loading_motor/input_current/frequency", frequency);
     ROS_INFO("%s", csv_file.c_str());
     ROS_INFO("%lf", frequency);
 

@@ -8,7 +8,7 @@
 
 <!-- Declare your PID controller parameters -->
 
-    <node pkg="iseauto" type="Control" name="iseauto_control">
+    <node pkg="iseauto" type="Control" name="/tb/loading_motor/controller">
       <param name="P" value="0.018" />
       <param name="I" value="0.012" />
       <param name="D" value="0.0" />

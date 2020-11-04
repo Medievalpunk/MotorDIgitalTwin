@@ -65,9 +65,9 @@ public:
         pnode.getParam("twist_to_motor_timeout_ticks", timeoutTicks);
 
         // initializing publishers/subscribers
-        encoderReceiver = handler.subscribe<std_msgs::Float32>("/iseauto/feedback/actual_rpm", 10, encoderReceive);
-        desiredReceiver = handler.subscribe<std_msgs::Float32>("/iseauto/control/desired_rpm", 10, desiredReceive);
-        controlPublisher = handler.advertise<std_msgs::Float32>("/iseauto/control/torque", 10);
+        encoderReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10, encoderReceive);
+        desiredReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/desired_rpm", 10, desiredReceive);
+        controlPublisher = handler.advertise<std_msgs::Float32>("tb/loading_motor/torque", 10);
     }
     void spin() {
         ros::Rate r(rate);
@@ -109,13 +109,13 @@ private:
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
     float cp=0, ci=0, cd=0,maxTorque=0,minValue=0;
-    ros::init(argc, argv, "control");
-    ROS_INFO("Started iseauto_control node");
-    ros::param::get("/iseauto_control/P", cp);
-    ros::param::get("/iseauto_control/I", ci);
-    ros::param::get("/iseauto_control/D", cd);
-    ros::param::get("/iseauto_control/max_torque",maxTorque);
-    ros::param::get("/iseauto_control/min_value",minValue);
+    ros::init(argc, argv, "tb/loading_motor/controller");
+    ROS_INFO("Started /tb/loading_motor/controller node");
+    ros::param::get("tb/loading_motor/controller/P", cp);
+    ros::param::get("/tb/loading_motor/controller/I", ci);
+    ros::param::get("/tb/loading_motor/controller/D", cd);
+    ros::param::get("/tb/loading_motor/controller/max_torque",maxTorque);
+    ros::param::get("/tb/loading_motor/controller/min_value",minValue);
 
     try {
         MotorController baseController(cp,ci,cd,maxTorque,minValue);

@@ -150,9 +150,9 @@ public:
         pnode.getParam("twist_to_motor_timeout_ticks", timeoutTicks);
 
         // initializing publishers/subscribers
-        TorqueReceiver = handler.subscribe<std_msgs::Float32>("iseauto/control/torque", 10, getTorque);
-        RPMReceiver = handler.subscribe<std_msgs::Float32>("iseauto/feedback/actual_rpm", 10, getRPM);
-        EfficiencyControl = handler.advertise<std_msgs::Float32>("iseauto/control/torque/efficiency", 10);
+        TorqueReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/torque", 10, getTorque);
+        RPMReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10, getRPM);
+        EfficiencyControl = handler.advertise<std_msgs::Float32>("tb/loading_motor/efficiency", 10);
     }
 
     float getEfficiency(float c_rpm, float c_torque)
@@ -206,10 +206,10 @@ private:
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
     string filename_csv;
-    ros::init(argc, argv, "efficiency");
+    ros::init(argc, argv, "tb/loading_motor/efficiency");
     int compare;
-    ROS_INFO("Started iseauto Motor node");
-    ros::param::get("/iseauto_efficiency/csv_file", filename_csv);
+    ROS_INFO("Started tb/loading_motor/efficiency node");
+    ros::param::get("/tb/loading_motor/efficiency/csv_file", filename_csv);
 
     try {
         EfficiencyMapProcessor EffMapper(filename_csv);

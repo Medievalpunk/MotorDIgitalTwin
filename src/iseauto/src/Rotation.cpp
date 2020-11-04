@@ -21,15 +21,15 @@ void angVListener::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "rotation");
-    ROS_INFO("Started iseauto_rotation node");
+    ROS_INFO("Started tb/loading_motor/rotation node");
     ros::NodeHandle nh("~");
     ros::Rate rate(60);
 
     angVListener listener;
-    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("/iseauto/feedback/shaft_angular_velocity", 10,
+    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("tb/loading_motor/shaft_angular_velocity", 10,
                                                                        &angVListener::VelocityReceiver, &listener);
 
-    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("/iseauto/feedback/actual_rpm", 10);
+    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10);
 
     std_msgs::Float32 rpm_msg;
     rpm_msg.data = 0;

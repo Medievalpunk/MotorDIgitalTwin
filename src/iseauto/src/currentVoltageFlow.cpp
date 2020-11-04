@@ -26,17 +26,18 @@ private:
     ros::Publisher PublishInputCurrent;
     ros::Publisher PublishInputVoltage;
     int rate = 60; // 1kHz
-    double timeFromStartDewetron=0.00005;
+    double timeFromStartDewetron=0.000100;
+
 public:
     iseauto::Current inputCurrentValues;
     iseauto::Voltage inputVoltageValues;
-    InputCurrentVoltage()
+    InputCurrentVoltage(std::string filename, float frequency)
     {
         ros::NodeHandle handler;
         // initializing publishers/subscribers
         PublishInputCurrent = handler.advertise<iseauto::Current>("iseauto/control/input_current", 10);
         PublishInputVoltage = handler.advertise<iseauto::Voltage>("iseauto/control/input_voltage", 10);
-        dewetron = new parseDewetron("5k Hz csv.csv", 1000); // get from params
+        dewetron = new parseDewetron(filename, frequency); // get from params
     }
     void wrapToMsg(double time)
     {
@@ -72,12 +73,14 @@ public:
         wrapToMsg(timeFromStartDewetron);
         PublishInputCurrent.publish(inputCurrentValues);
         PublishInputVoltage.publish(inputVoltageValues);
-        timeFromStartDewetron+=0.00020;
+        timeFromStartDewetron+=0.001;     //TODO:FIX THIS ASAP. EXTRACT FIRST VALUE AND SECOND AND COMPUTE THE STEP
     }
 
 };
 int main(int argc, char **argv)
 {
+    std::string csv_file;
+    float frequency;
    /* parseDewetron dewetron("1k Hz csv.csv", 1000);
     std::cout << dewetron.getCurrentTwo(0.0271) << "\n";
     std::cout << dewetron.getVoltageOne(0.2391) << "\n";
@@ -85,10 +88,14 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "input_current_voltage");
     ROS_INFO("Started iseauto inputCurrentVoltage node");
+    ros::param::get("/iseauto_input_current/csv_file", csv_file);
+    ros::param::get("/iseauto_input_current/frequency", frequency);
+    ROS_INFO("%s", csv_file.c_str());
+    ROS_INFO("%lf", frequency);
 
     try
     {
-        InputCurrentVoltage inputValues;
+        InputCurrentVoltage inputValues(csv_file, frequency);
         inputValues.spin();
     }
     catch (const ros::Exception &e)

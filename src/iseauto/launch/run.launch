@@ -1,9 +1,9 @@
 <launch>
 <!-- This launch file is to launch Rosbridge and iseauto modules-->
 
-<!-- Launch rosbridge -->
+<!-- Launch rosbridge 
     <include file="$(find rosbridge_server)/launch/rosbridge_udp.launch" />
-
+-->
 <!--Launch iseauto nodes-->
 
 <!-- Declare your PID controller parameters -->
@@ -15,8 +15,11 @@
       <param name="max_torque" value="60.0" />
       <param name="min_value" value="0.0"/>
     </node>
-
 <!-- Launch Rotation node -->
+
 <node name="iseauto_rotation" pkg="iseauto" type="Rotation" />
+
+<include file="$(find iseauto)/launch/efficiency_map.launch" />
+<include file="$(find iseauto)/launch/input_current.launch" />
 
 </launch>

@@ -6,11 +6,10 @@
  * https://github.com/jfstepha/differential-drive
  *
  */
-
 #include <ros/ros.h>
 #include <ros/console.h>
 #include <std_msgs/Float32.h>
-
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -74,6 +73,10 @@ public:
     EfficiencyMapProcessor(string filename)
     {
         std::ifstream file(filename);
+        if(!file.is_open())
+        {
+            throw std::runtime_error("Could not open file");
+        }
         int line_c=0;
         int word_c=0;
 
@@ -202,18 +205,14 @@ private:
 
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "EffMap");
+    string filename_csv;
+    ros::init(argc, argv, "efficiency");
+    int compare;
     ROS_INFO("Started iseauto Motor node");
-    /*rpm.push_back(300);
-    rpm.push_back(600);
-    rpm.push_back(900);
-    rpm.push_back(1200);
-    rpm.push_back(1500);
-    rpm.push_back(1650);
-    rpm.push_back(1800);*/
+    ros::param::get("/iseauto_efficiency/csv_file", filename_csv);
 
     try {
-        EfficiencyMapProcessor EffMapper("Utilities/PMSynRM.csv");
+        EfficiencyMapProcessor EffMapper(filename_csv);
         EffMapper.spin();
     }
     catch (const ros::Exception &e) {

@@ -111,12 +111,11 @@ int main(int argc, char **argv) {
     float cp=0, ci=0, cd=0,maxTorque=0,minValue=0;
     ros::init(argc, argv, "control");
     ROS_INFO("Started iseauto_control node");
-    ros::NodeHandle nh;
-    nh.getParam("/iseauto_control/P", cp);
-    nh.getParam("/iseauto_control/I", ci);
-    nh.getParam("/iseauto_control/D", cd);
-    nh.getParam("/iseauto_control/max_torque",maxTorque);
-    nh.getParam("/iseauto_control/min_value",minValue);
+    ros::param::get("/iseauto_control/P", cp);
+    ros::param::get("/iseauto_control/I", ci);
+    ros::param::get("/iseauto_control/D", cd);
+    ros::param::get("/iseauto_control/max_torque",maxTorque);
+    ros::param::get("/iseauto_control/min_value",minValue);
 
     try {
         MotorController baseController(cp,ci,cd,maxTorque,minValue);

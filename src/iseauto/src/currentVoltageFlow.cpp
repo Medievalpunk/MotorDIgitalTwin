@@ -1,8 +1,6 @@
 //
 // Created by sejego on 10/19/20.
 //
-// TODO: Params for files and shit
-// TODO: Naming of time variables.
 // TODO: Handling for ending
 //
 #include <iostream>
@@ -26,7 +24,8 @@ private:
     ros::Publisher PublishInputCurrent;
     ros::Publisher PublishInputVoltage;
     int rate = 60; // 1kHz
-    double timeFromStartDewetron=0.000100;
+    double timeFromStartDewetron = 0;
+    double timeIncrement = 0;
 
 public:
     iseauto::Current inputCurrentValues;
@@ -38,6 +37,9 @@ public:
         PublishInputCurrent = handler.advertise<iseauto::Current>("tb/loading_motor/input_current", 10);
         PublishInputVoltage = handler.advertise<iseauto::Voltage>("tb/loading_motor/input_voltage", 10);
         dewetron = new parseDewetron(filename, frequency); // get from params
+        timeFromStartDewetron = dewetron->getStartTime();
+        timeIncrement = dewetron->getTimeStep();
+
     }
     void wrapToMsg(double time)
     {
@@ -73,7 +75,7 @@ public:
         wrapToMsg(timeFromStartDewetron);
         PublishInputCurrent.publish(inputCurrentValues);
         PublishInputVoltage.publish(inputVoltageValues);
-        timeFromStartDewetron+=0.001;     //TODO:FIX THIS ASAP. EXTRACT FIRST VALUE AND SECOND AND COMPUTE THE STEP
+        timeFromStartDewetron+=timeIncrement;
     }
 
 };
@@ -86,10 +88,10 @@ int main(int argc, char **argv)
     std::cout << dewetron.getVoltageOne(0.2391) << "\n";
     std::cout << dewetron.getCurrentThree(1.5071) << "\n";*/
 
-    ros::init(argc, argv, "input_current_voltage");
+    ros::init(argc, argv, "loading_motor_1");
     ROS_INFO("Started iseauto inputCurrentVoltage node");
-    ros::param::get("/tb/loading_motor/input_current/csv_file", csv_file);
-    ros::param::get("/tb/loading_motor/input_current/frequency", frequency);
+    ros::param::get("loading_motor_1/csv_file", csv_file);
+    ros::param::get("loading_motor_1/input_current/frequency", frequency);
     ROS_INFO("%s", csv_file.c_str());
     ROS_INFO("%lf", frequency);
 

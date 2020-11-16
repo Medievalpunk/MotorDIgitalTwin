@@ -206,10 +206,10 @@ private:
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
     string filename_csv;
-    ros::init(argc, argv, "tb/loading_motor/efficiency");
+    ros::init(argc, argv, "loading_motor_efficiency");
     int compare;
     ROS_INFO("Started tb/loading_motor/efficiency node");
-    ros::param::get("/tb/loading_motor/efficiency/csv_file", filename_csv);
+    ros::param::get("loading_motor_efficiency/csv_file", filename_csv);
 
     try {
         EfficiencyMapProcessor EffMapper(filename_csv);

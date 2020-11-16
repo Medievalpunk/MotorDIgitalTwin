@@ -1,7 +1,7 @@
 <launch>
     <arg name="filename" value="PMSynRM.csv" />
 <!-- EfficiencyMap node and parameters -->
-    <node pkg="iseauto" type="Efficiency" name="/tb/loading_motor/efficiency" output="screen">
+    <node pkg="iseauto" type="Efficiency" name="loading_motor_efficiency" output="screen">
         <param name="csv_file" type="str" value="$(find iseauto)/Utilities/$(arg filename)" />
     </node>
 </launch>

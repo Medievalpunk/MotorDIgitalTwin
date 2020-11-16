@@ -1,7 +1,6 @@
 //
 // Created by sejego on 10/18/20.
-// This script parses the data from Dewetron measurement csv file.
-// TODO: umap instead of vector
+// This script parses the data from Dewetron measurement csv file
 // add relative path to file.
 // get onevalue of current?
 //
@@ -26,6 +25,8 @@ parseDewetron::parseDewetron(std::string filename, float frequency)
 void parseDewetron::parseDewetronFile()
 {
     bool isFirstLine = true;
+    bool isFirstLineWithData = false;
+    bool isSecondLineWithData = false;
     int arrCounter;
     std::string element;
     int buffCounter;
@@ -43,6 +44,7 @@ void parseDewetron::parseDewetronFile()
             {
                 std::stringstream ss(line); // not sure if needed here
                 isFirstLine = false;
+                isFirstLineWithData = true;
                 continue;
             }
                 // Create a stringstream from line
@@ -90,8 +92,6 @@ void parseDewetron::parseDewetronFile()
                 // insert values for appropriate umaps
                 for (int j = 0; j < 7; j++) {
 
-                    //std::cout << bufferArray[j] << "\n";
-
                     switch (j) {
                         case 1:
                             current_1.insert(std::make_pair(bufferArray[0], bufferArray[j]));
@@ -112,6 +112,18 @@ void parseDewetron::parseDewetronFile()
                             voltage_3.insert(std::make_pair(bufferArray[0], bufferArray[j]));
                             break;
                     }
+                    if(isFirstLineWithData)
+                    {
+                        startTime = bufferArray[0];
+                        isSecondLineWithData= true;
+                        isFirstLineWithData = false;
+                    }
+                    else if(isSecondLineWithData)
+                    {
+                        timeStep = bufferArray[0] - startTime;
+                        isSecondLineWithData = false;
+                    }
+                    //std::cout << bufferArray[j] << "\n";
                 }
             }
         }
@@ -144,4 +156,12 @@ float parseDewetron::getVoltageThree(float key)
 float parseDewetron::getFrequency()
 {
     return usedFrequency;
+}
+float parseDewetron::getStartTime()
+{
+    return startTime;
+}
+float parseDewetron::getTimeStep()
+{
+    return timeStep;
 }

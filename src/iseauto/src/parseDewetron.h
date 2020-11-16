@@ -19,6 +19,8 @@ public:
     float usedFrequency;
     std::string line;
     std::ifstream dewetronFile;
+    double startTime;
+    double timeStep;
 
     //vectors of value pairs time:value
     std::unordered_map<float, float> current_1;
@@ -39,6 +41,8 @@ public:
     float getVoltageOne(float key);
     float getVoltageTwo(float key);
     float getVoltageThree(float key);
+    float getStartTime();
+    float getTimeStep();
     
     float getFrequency();
 

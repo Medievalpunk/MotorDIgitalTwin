@@ -2,7 +2,7 @@
     <arg name="filename" value="1k Hz csv.csv" />
     <arg name="frequency_default" value="1000" />
 <!-- Input Voltage and Current node and parameters -->
-    <node pkg="iseauto" type="currentVoltageFlow" name="tb/loading_motor/input_current" output="screen">
+    <node pkg="iseauto" type="currentVoltageFlow" name="loading_motor_1" output="screen">
         <param name="csv_file" type="str" value="$(find iseauto)/Utilities/$(arg filename)" />
         <param name="frequency" type="double" value="$(arg frequency_default)" />
     </node>

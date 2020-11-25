@@ -18,6 +18,7 @@ As a general rule, names in ROS should follow the naming convention described in
 | ROS services| TBD |
 |source file namings|source files should follow the conventions of [CPP](http://manual.gromacs.org/documentation/5.1-current/dev-manual/naming.html) and [Python](https://visualgit.readthedocs.io/en/latest/pages/naming_convention.html) file naming|
 
-### UNITY
-
+### Visualizations
+PSG-453 in its essence is intended to work with various visualization approaches. APIs and/or examples for some of them will be added to this project as submodules. Current list of Visualizations:
+Unity 3D
 ### DEWETRON

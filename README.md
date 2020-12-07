@@ -16,7 +16,7 @@ As a general rule, names in ROS should follow the naming convention described in
 | ROS nodes | ROS nodes should feature the name of the component as a prefix |
 | ROS topics | ROS topics should describe what information they provide  |
 | ROS services| TBD |
-|source file namings|source files should follow the conventions of [CPP](http://manual.gromacs.org/documentation/5.1-current/dev-manual/naming.html) and [Python](https://visualgit.readthedocs.io/en/latest/pages/naming_convention.html) file naming|
+|source file namings|source files should follow the conventions of [CPP](http://geosoft.no/development/cppstyle.html#Source%20Files) and [Python](https://visualgit.readthedocs.io/en/latest/pages/naming_convention.html) file naming|
 
 ### UNITY
 

@@ -11,7 +11,7 @@
 #include <sstream>
 #include <string>
 
-class parseDewetron
+class ParseDewetron
 {
 public:
     // buffer for only data that is present
@@ -31,7 +31,7 @@ public:
     std::unordered_map<float, float> voltage_3;
 
     //file parser
-    parseDewetron(std::string filename, float frequency);
+    ParseDewetron(const std::string& filename, float frequency);
 
     //getters
 
@@ -41,10 +41,10 @@ public:
     float getVoltageOne(float key);
     float getVoltageTwo(float key);
     float getVoltageThree(float key);
-    float getStartTime();
-    float getTimeStep();
+    double getStartTime() const;
+    double getTimeStep() const;
     
-    float getFrequency();
+    float getFrequency() const;
 
     // possible server features?
 

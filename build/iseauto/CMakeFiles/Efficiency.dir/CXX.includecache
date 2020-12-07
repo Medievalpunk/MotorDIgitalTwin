@@ -13,6 +13,8 @@ ros/console.h
 -
 std_msgs/Float32.h
 -
+string
+-
 iostream
 -
 fstream

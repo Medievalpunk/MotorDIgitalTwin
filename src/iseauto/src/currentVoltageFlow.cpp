@@ -1,8 +1,10 @@
 //
 // Created by sejego on 10/19/20.
+//  TODO: rename package from iseauto to correct one
+// Currently it plays it from the beginning till the end only
 //
-// TODO: Handling for ending
-//
+
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -20,7 +22,7 @@
 class InputCurrentVoltage
 {
 private:
-    parseDewetron *dewetron;
+    ParseDewetron *dewetron;
     ros::Publisher PublishInputCurrent;
     ros::Publisher PublishInputVoltage;
     int rate = 60; // 1kHz
@@ -36,7 +38,7 @@ public:
         // initializing publishers/subscribers
         PublishInputCurrent = handler.advertise<iseauto::Current>("tb/loading_motor/input_current", 10);
         PublishInputVoltage = handler.advertise<iseauto::Voltage>("tb/loading_motor/input_voltage", 10);
-        dewetron = new parseDewetron(filename, frequency); // get from params
+        dewetron = new ParseDewetron(filename, frequency); // get from params
         timeFromStartDewetron = dewetron->getStartTime();
         timeIncrement = dewetron->getTimeStep();
 
@@ -83,7 +85,7 @@ int main(int argc, char **argv)
 {
     std::string csv_file;
     float frequency;
-   /* parseDewetron dewetron("1k Hz csv.csv", 1000);
+   /* ParseDewetron dewetron("1k Hz csv.csv", 1000);
     std::cout << dewetron.getCurrentTwo(0.0271) << "\n";
     std::cout << dewetron.getVoltageOne(0.2391) << "\n";
     std::cout << dewetron.getCurrentThree(1.5071) << "\n";*/
@@ -111,7 +113,7 @@ int main(int argc, char **argv)
 /*
 void test()
 {
-    parseDewetron dewetron("1k Hz csv.csv", 1000);
+    ParseDewetron dewetron("1k Hz csv.csv", 1000);
     std::cout << dewetron.getCurrentTwo(0.0271) << "\n";
     std::cout << dewetron.getVoltageOne(0.2391) << "\n";
     std::cout << dewetron.getCurrentThree(1.5071) << "\n";

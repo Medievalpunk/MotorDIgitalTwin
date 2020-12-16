@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/iseauto_generate_messages_cpp"
-  "/home/sejego/catkin_ws/devel/include/iseauto/Voltage.h"
   "/home/sejego/catkin_ws/devel/include/iseauto/Current.h"
+  "/home/sejego/catkin_ws/devel/include/iseauto/Power.h"
+  "/home/sejego/catkin_ws/devel/include/iseauto/Voltage.h"
+  "CMakeFiles/iseauto_generate_messages_cpp"
 )
 
 # Per-language clean rules from dependency scanning.

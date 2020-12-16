@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Rotation.dir/src/Rotation.cpp.o"
-  "/home/sejego/catkin_ws/devel/lib/iseauto/Rotation.pdb"
   "/home/sejego/catkin_ws/devel/lib/iseauto/Rotation"
+  "/home/sejego/catkin_ws/devel/lib/iseauto/Rotation.pdb"
+  "CMakeFiles/Rotation.dir/src/Rotation.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.

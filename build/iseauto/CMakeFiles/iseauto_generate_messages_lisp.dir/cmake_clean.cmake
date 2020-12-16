@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/iseauto_generate_messages_lisp"
-  "/home/sejego/catkin_ws/devel/share/common-lisp/ros/iseauto/msg/Voltage.lisp"
   "/home/sejego/catkin_ws/devel/share/common-lisp/ros/iseauto/msg/Current.lisp"
+  "/home/sejego/catkin_ws/devel/share/common-lisp/ros/iseauto/msg/Power.lisp"
+  "/home/sejego/catkin_ws/devel/share/common-lisp/ros/iseauto/msg/Voltage.lisp"
+  "CMakeFiles/iseauto_generate_messages_lisp"
 )
 
 # Per-language clean rules from dependency scanning.

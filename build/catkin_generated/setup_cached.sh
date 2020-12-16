@@ -6,9 +6,4 @@
 
 # new environment variables
 
-<<<<<<< refs/remotes/origin/changed-physics
 # modified environment variables
-export PWD='/home/sejego/catkin_ws/build'
-=======
-# modified environment variables
->>>>>>> added Power calculation

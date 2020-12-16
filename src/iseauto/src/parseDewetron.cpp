@@ -5,13 +5,16 @@
 // get onevalue of current?
 //
 
+#include <iostream>
 #include <unordered_map>
+#include <fstream>
+#include <sstream>
 #include <string>
 
 #include "parseDewetron.h"
 
 // instantiate the object with file name and open it
-ParseDewetron::ParseDewetron(const std::string& filename, float frequency)
+parseDewetron::parseDewetron(std::string filename, float frequency)
 {
     dewetronFile = std::ifstream(filename);
     usedFrequency = frequency;
@@ -19,7 +22,7 @@ ParseDewetron::ParseDewetron(const std::string& filename, float frequency)
 }
 
 // parse the Dewetron measurements file
-void ParseDewetron::parseDewetronFile()
+void parseDewetron::parseDewetronFile()
 {
     bool isFirstLine = true;
     bool isFirstLineWithData = false;
@@ -31,6 +34,7 @@ void ParseDewetron::parseDewetronFile()
     {
         throw std::runtime_error("Could not open file");
     }
+
     //if file is open and is OK continue
 
     else if(dewetronFile.good()) {
@@ -86,8 +90,8 @@ void ParseDewetron::parseDewetronFile()
                     buffCounter++;
                 }
                 // insert values for appropriate umaps
-                for (int j = 0; j < 7; j++)
-                {
+                for (int j = 0; j < 7; j++) {
+
                     switch (j) {
                         case 1:
                             current_1.insert(std::make_pair(bufferArray[0], bufferArray[j]));
@@ -125,39 +129,39 @@ void ParseDewetron::parseDewetronFile()
         }
     dewetronFile.close();
 }
-float ParseDewetron::getCurrentOne(float key)
+float parseDewetron::getCurrentOne(float key)
 {
     return current_1.at(key);
 }
-float ParseDewetron::getCurrentTwo(float key)
+float parseDewetron::getCurrentTwo(float key)
 {
     return current_2.at(key);
 }
-float ParseDewetron::getCurrentThree(float key)
+float parseDewetron::getCurrentThree(float key)
 {
     return current_3.at(key);
 }
-float ParseDewetron::getVoltageOne(float key)
+float parseDewetron::getVoltageOne(float key)
 {
     return voltage_1.at(key);
 }
-float ParseDewetron::getVoltageTwo(float key)
+float parseDewetron::getVoltageTwo(float key)
 {
     return voltage_2.at(key);
 }
-float ParseDewetron::getVoltageThree(float key)
+float parseDewetron::getVoltageThree(float key)
 {
     return voltage_3.at(key);
 }
-float ParseDewetron::getFrequency() const
+float parseDewetron::getFrequency()
 {
     return usedFrequency;
 }
-double ParseDewetron::getStartTime() const
+float parseDewetron::getStartTime()
 {
     return startTime;
 }
-double ParseDewetron::getTimeStep() const
+float parseDewetron::getTimeStep()
 {
     return timeStep;
 }

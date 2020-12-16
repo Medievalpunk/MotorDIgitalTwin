@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/sejego/catkin_ws/src/iseauto/msg/Current.msg;/home/sejego/catkin_ws/src/iseauto/msg/Voltage.msg"
+messages_str = "/home/sejego/catkin_ws/src/iseauto/msg/Current.msg;/home/sejego/catkin_ws/src/iseauto/msg/Voltage.msg;/home/sejego/catkin_ws/src/iseauto/msg/Power.msg"
 services_str = ""
 pkg_name = "iseauto"
 dependencies_str = "std_msgs"

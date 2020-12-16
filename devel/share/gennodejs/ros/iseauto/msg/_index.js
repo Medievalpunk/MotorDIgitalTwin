@@ -1,10 +1,12 @@
 
 "use strict";
 
-let Current = require('./Current.js');
+let Power = require('./Power.js');
 let Voltage = require('./Voltage.js');
+let Current = require('./Current.js');
 
 module.exports = {
-  Current: Current,
+  Power: Power,
   Voltage: Voltage,
+  Current: Current,
 };

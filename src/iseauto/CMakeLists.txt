@@ -10,6 +10,7 @@ add_message_files(
         FILES
         Current.msg
         Voltage.msg
+        Power.msg
 )
 generate_messages(
         DEPENDENCIES
@@ -37,6 +38,7 @@ add_executable(Control
         src/Controller.cpp
         src/pid.cpp)
 add_executable(Rotation src/Rotation.cpp)
+add_executable(Power src/powerCalculator.cpp)
 add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
         src/parseDewetron.cpp)
@@ -49,4 +51,6 @@ target_link_libraries(Rotation
 target_link_libraries(Control
   ${catkin_LIBRARIES})
 target_link_libraries(currentVoltageFlow
+  ${catkin_LIBRARIES})
+target_link_libraries(Power
   ${catkin_LIBRARIES})

@@ -3,6 +3,8 @@
   (:export
    "<CURRENT>"
    "CURRENT"
+   "<POWER>"
+   "POWER"
    "<VOLTAGE>"
    "VOLTAGE"
   ))

@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/iseauto_generate_messages_nodejs"
-  "/home/sejego/catkin_ws/devel/share/gennodejs/ros/iseauto/msg/Voltage.js"
   "/home/sejego/catkin_ws/devel/share/gennodejs/ros/iseauto/msg/Current.js"
+  "/home/sejego/catkin_ws/devel/share/gennodejs/ros/iseauto/msg/Power.js"
+  "/home/sejego/catkin_ws/devel/share/gennodejs/ros/iseauto/msg/Voltage.js"
+  "CMakeFiles/iseauto_generate_messages_nodejs"
 )
 
 # Per-language clean rules from dependency scanning.

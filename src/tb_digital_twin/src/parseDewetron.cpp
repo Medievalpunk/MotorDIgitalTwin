@@ -19,7 +19,7 @@ parseDewetron::parseDewetron(std::string filename, int numberOfColumns)
     //usedFrequency = frequency;
     /* automatic parsing of the file */
     parseDewetronFile();
-    std::cout << "Dewetron got parsed\n";
+    //std::cout << "Dewetron got parsed\n";
 }
 
 // parse the Dewetron measurements file
@@ -78,14 +78,14 @@ void parseDewetron::parseDewetronFile()
     }
 
     numOfRows = parsedData.size();
-    std::cout << "Number of rows is: " << numOfRows << "\n";
-    std::cout << "Number of columns is " << numOfCols << "\n" ;
-    std::cout << "Size of vector is: " << (sizeof(std::vector<float>) + (sizeof(float) * parsedData.size())) << "\n";
+    //std::cout << "Number of rows is: " << numOfRows << "\n";
+    //std::cout << "Number of columns is " << numOfCols << "\n" ;
+    //std::cout << "Size of vector is: " << (sizeof(std::vector<float>) + (sizeof(float) * parsedData.size())) << "\n";
 
     timeVector.resize(numOfRows);
     valuesVector.resize(numOfRows);
     separateToVectors();
-    std::cout << "Separate vectors worked\n";
+    //std::cout << "Separate vectors worked\n";
 }
 std::vector<std::vector<float>> parseDewetron::getProcessed2DVector()
 {
@@ -105,8 +105,8 @@ void parseDewetron::separateToVectors()
         colCt++;
     }
 
-    std::cout << timeVector.size() << "The size of timeVec\n";
-    std::cout << valuesVector.size() << "The size of valVec\n";
+    //std::cout << timeVector.size() << "The size of timeVec\n";
+    //std::cout << valuesVector.size() << "The size of valVec\n";
 
 }
 

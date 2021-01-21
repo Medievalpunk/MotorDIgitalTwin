@@ -1,5 +1,8 @@
 //
 // Created by sejego on 22.12.20.
+// TODO: place static getters/setters to operate within threads, make variables private
+// TODO: Add publisher to 3D Model
+// TODO: Add constants, config parameters thru launchs
 //
 
 #include <ros/ros.h>
@@ -8,7 +11,6 @@
 #include <numeric>
 #include <cmath>
 #include <tb_digital_twin/Current.h>
-
 
 class WindingErrorChecker
 {
@@ -25,7 +27,10 @@ public:
     bool* const pCanCalculate = &canCalculate;
     float rmsCurrents[3] = {0.0};
     float mean[3], square[3];
+    float k[3];
     int i = 0;
+    const int SIZE_A = 1000;
+
     WindingErrorChecker()
     {
         std::cout << "Init happened\n";
@@ -40,7 +45,7 @@ public:
 
     void currentCallback(const tb_digital_twin::Current::ConstPtr& msg)
     {
-        if(i>=300)
+        if(i >= SIZE_A )
         {
             //std::cout << "Listened\n";
             i = 0;
@@ -60,7 +65,7 @@ public:
 
     void phaseChecker(bool *pNotTerminated)
     {
-        std::cout << *pCanCalculate << "\n";
+        //std::cout << *pCanCalculate << "\n";
         while(true)
         {
             if(*pNotTerminated == false)
@@ -68,8 +73,8 @@ public:
 
             if(*pCanCalculate == true)
             {
-                printf("Start Calculate\n");
-                for(int j = 0; j<300;j++)
+                //printf("Start Calculate\n");
+                for(int j = 0; j<SIZE_A ; j++)
                 {
                     square[0] += currentsBuff[0][j]*currentsBuff[0][j];
                     square[1] += currentsBuff[1][j]*currentsBuff[1][j];
@@ -77,13 +82,25 @@ public:
                 }
                 for(int j = 0; j<3;j++)
                 {
-                    mean[j] = (square[j] / 300);
+                    mean[j] = (square[j] / SIZE_A);
                 }
                 for(int j = 0; j<3; j++)
                 {
                     rmsCurrents[j] = std::sqrt(mean[j]);
                 }
-                std::cout << "First is: " << rmsCurrents[0] << " - Second is: "<< rmsCurrents[1] << " - Third is: " << rmsCurrents[2] << "\n";
+                for(int j = 0; j<3;j++)
+                {
+                    k[j] = rmsCurrents[j]/rmsCurrents[0];
+                }
+                for(int j=0; j < 3; j++)
+                {
+                    if( abs(k[0] - k[j]) > 0.15 )
+                    {
+                        ROS_WARN("Potential malfunction in windings");
+                    }
+                }
+                //std::cout << "First is: " << rmsCurrents[0] << " - Second is: "<< rmsCurrents[1] << " - Third is: " << rmsCurrents[2] << "\n";
+
 
                 /* CLEANUP */
                 currentsBuff.clear();
@@ -104,10 +121,9 @@ int main(int argc, char *argv[])
     WindingErrorChecker wec;
     ros::init(argc, argv, "tb_loading_motor_status");
     ros::NodeHandle nh;
-    //tb_digital_twin::Current deviation;
     std::thread tPhaseChecker(&WindingErrorChecker::phaseChecker, &wec, pNotTerminated);
-    ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current", 200, &WindingErrorChecker::currentCallback, &wec);
-    //ros::Rate rate(60);
+    ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current",
+                                                                              200, &WindingErrorChecker::currentCallback, &wec);
 
     ros::spin();
     if(ros::ok() == false)
@@ -116,32 +132,6 @@ int main(int argc, char *argv[])
         tPhaseChecker.join();
         return 0;
     }
-
-
-    /*
-    while(ros::ok())
-    {
-        for(int i = 1; i < 100; i++)
-        {
-            ros::spinOnce();
-            p2 = p2+(0.01*i);
-            p3 = p3+(0.03*i);
-            deviation.current1 = p1;
-            deviation.current2 = p2;
-            deviation.current3 = p3;
-            kPublisher.publish(deviation);
-            rate.sleep();
-            if(i%10)
-            {
-                ROS_WARN("Potential malfunction in windings");
-            }
-            if(i == 99) {
-                exit(1);
-            }
-        }
-    }
-     */
-
     return 0;
 }
 

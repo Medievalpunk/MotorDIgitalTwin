@@ -29,7 +29,7 @@ private:
     ros::Publisher PublishInputVoltage;
     tb_digital_twin::Current inputCurrentValuesMsg;
     tb_digital_twin::Voltage inputVoltageValuesMsg;
-    int rate = 60; // 1kHz
+    int rate = 1000; // 1kHz
     //float timeFromStart;
     //float timeIncrement;
     int arrIndex = 0;
@@ -42,11 +42,8 @@ public:
         // initializing publishers/subscribers
         PublishInputCurrent = handler.advertise<tb_digital_twin::Current>("tb/loading_motor/input_current", 10);
         PublishInputVoltage = handler.advertise<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 10);
-        std::cout<< "publushers are on!\n";
         dewetron = new parseDewetron(filename, numberOfCols); // get from params
-        std::cout<<"dewetron instantiated and parsed file?\n";
         processValues();
-        std::cout << "Values processed\n" ;
     }
     void processValues()
     {
@@ -56,9 +53,9 @@ public:
     void wrapToMsgArray(int index)
     {
         /* According to indexes in the file */
-        inputCurrentValuesMsg.current1 = arrayOfProcessedData[index][8];
-        inputCurrentValuesMsg.current2 = arrayOfProcessedData[index][7];
-        inputCurrentValuesMsg.current3 = arrayOfProcessedData[index][6];
+        inputCurrentValuesMsg.current1 = arrayOfProcessedData[index][5];
+        inputCurrentValuesMsg.current2 = arrayOfProcessedData[index][4];
+        inputCurrentValuesMsg.current3 = arrayOfProcessedData[index][3];
         inputVoltageValuesMsg.voltage1 = arrayOfProcessedData[index][0];
         inputVoltageValuesMsg.voltage2 = arrayOfProcessedData[index][1];
         inputVoltageValuesMsg.voltage3 = arrayOfProcessedData[index][2];
@@ -98,19 +95,16 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "loading_motor_1");
     ROS_INFO("Started iseauto inputCurrentVoltage node");
-    std::cout << "shit started\n";
     ros::param::get("loading_motor_1/csv_file", csv_file);
-    std::cout<< "file loaded \n";
     ros::param::get("loading_motor_1/frequency", frequency);
     ros::param::get("loading_motor_1/number_of_columns", cols);
     ros::param::get("loading_motor_1/number_of_values", vals);
-    std::cout << "params loaded \n" << "file name: " << csv_file <<"  "<< "NumofCols: " << cols << "\n";
+    //std::cout << "params loaded \n" << "file name: " << csv_file <<"  "<< "NumofCols: " << cols << "\n";
 
     try
     {
-        std::cout << "This also happened \n";
         InputCurrentVoltage inputIV(csv_file, cols, vals);
-        std::cout << "Instantiated IV\n";
+        //std::cout << "Instantiated\n";
 
         inputIV.spin();
     }

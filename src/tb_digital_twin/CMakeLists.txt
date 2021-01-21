@@ -38,7 +38,10 @@ add_executable(Control
         src/Controller.cpp
         src/pid.cpp)
 add_executable(Rotation src/Rotation.cpp)
+<<<<<<< HEAD:src/tb_digital_twin/CMakeLists.txt
 add_executable(errorCheck src/checkError.cpp)
+=======
+>>>>>>> 01086279306626ec16432b3f47f68064feabc112:src/iseauto/CMakeLists.txt
 add_executable(Power src/powerCalculator.cpp)
 add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
@@ -56,5 +59,8 @@ target_link_libraries(currentVoltageFlow
   ${catkin_LIBRARIES})
 target_link_libraries(Power
   ${catkin_LIBRARIES})
+<<<<<<< HEAD:src/tb_digital_twin/CMakeLists.txt
 target_link_libraries(errorCheck
   ${catkin_LIBRARIES})
+=======
+>>>>>>> 01086279306626ec16432b3f47f68064feabc112:src/iseauto/CMakeLists.txt

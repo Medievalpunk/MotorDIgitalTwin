@@ -8,7 +8,11 @@
 
 <!-- Declare your PID controller parameters -->
 
+<<<<<<< HEAD:src/tb_digital_twin/launch/run.launch
     <node pkg="tb_digital_twin" type="Control" name="/tb/loading_motor/controller">
+=======
+    <node pkg="iseauto" type="Control" name="/tb/loading_motor/controller">
+>>>>>>> 01086279306626ec16432b3f47f68064feabc112:src/iseauto/launch/run.launch
       <param name="P" value="0.018" />
       <param name="I" value="0.012" />
       <param name="D" value="0.0" />
@@ -16,10 +20,18 @@
       <param name="min_value" value="0.0"/>
     </node>
 <!-- Launch Rotation node -->
+<<<<<<< HEAD:src/tb_digital_twin/launch/run.launch
 
 <node name="tb_rotation" pkg="tb_digital_twin" type="Rotation" />
 
 <include file="$(find tb_digital_twin)/launch/efficiency_map.launch" />
 <include file="$(find tb_digital_twin)/launch/input_current.launch" />
+=======
+
+<node name="iseauto_rotation" pkg="iseauto" type="Rotation" />
+
+<include file="$(find iseauto)/launch/efficiency_map.launch" />
+<include file="$(find iseauto)/launch/input_current.launch" />
+>>>>>>> 01086279306626ec16432b3f47f68064feabc112:src/iseauto/launch/run.launch
 
 </launch>
